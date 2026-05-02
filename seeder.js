@@ -3,8 +3,19 @@ const dotenv = require('dotenv');
 const Project = require('./models/projectModel');
 const Experience = require('./models/experienceModel');
 const Skill = require('./models/skillModel');
+const User = require('./models/userModel');
+const bcrypt = require('bcryptjs');
 
 dotenv.config();
+
+const users = [
+  {
+    name: process.env.ADMIN_NAME,
+    email: process.env.ADMIN_EMAIL,
+    password: process.env.ADMIN_PASSWORD,
+    isAdmin: true
+  }
+];
 
 const projects = [
   {
@@ -81,15 +92,17 @@ const seedData = async () => {
       throw new Error('MONGO_URI is not defined in your .env file');
     }
     await mongoose.connect(process.env.MONGO_URI);
-    
+
     await Project.deleteMany();
     await Experience.deleteMany();
     await Skill.deleteMany();
-    
+    await User.deleteMany();
+
     await Project.insertMany(projects);
     await Experience.insertMany(experiences);
     await Skill.insertMany(skills);
-    
+    await User.insertMany(users);
+
     console.log('Data Seeded Successfully');
     process.exit();
   } catch (error) {
