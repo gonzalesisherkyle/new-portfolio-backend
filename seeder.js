@@ -101,7 +101,7 @@ const seedData = async () => {
     await Project.insertMany(projects);
     await Experience.insertMany(experiences);
     await Skill.insertMany(skills);
-    await User.insertMany(users);
+    await User.create(users);
 
     console.log('Data Seeded Successfully');
     process.exit();
